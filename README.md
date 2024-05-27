@@ -1,0 +1,1 @@
+# rdb_altlinux_testtask_bazalt
