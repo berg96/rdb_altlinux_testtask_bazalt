@@ -1,8 +1,9 @@
-import aiohttp
 import asyncio
+import os
 
+import aiohttp
 from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.orm import declared_attr, declarative_base, Session
+from sqlalchemy.orm import Session, declarative_base, declared_attr
 from tqdm import tqdm
 
 MAIN_URL = 'https://rdb.altlinux.org/api/export/branch_binary_packages/{}'
@@ -80,7 +81,7 @@ def compare_packages(session, arch):
     )
 
 
-async def main(session):
+async def execute(session):
     packages_p10, packages_sisyphus = await asyncio.gather(
         fetch_packages(MAIN_URL.format('p10')),
         fetch_packages(MAIN_URL.format('sisyphus'))
@@ -103,10 +104,12 @@ async def main(session):
     print(results)
 
 
-if __name__ == '__main__':
+def main():
     engine = create_engine('sqlite:///sqlite.db')
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
-    session = Session(engine)
-    asyncio.run(main(session))
+    with Session(engine) as session:
+        asyncio.run(execute(session))
+    engine.dispose()
+    os.remove('sqlite.db')
 
