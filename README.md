@@ -3,10 +3,10 @@
 ## Task description:
 I have developed a python module and a cli utility using this module.
 The principle of operation:
-When the utility is launched, the module receives package lists from Basealt's public API [https://rdb.altlinux.org/api/](https://rdb.altlinux.org/api/) using /export/branch_binary_packages/{branch} method, sisyphus and p10 are used as branches. Next, it compares these lists for each supported architecture and outputs the information to the terminal in JSON format:
-* 'unique_packages_p10': all packages that are in p10, but not in sisyphus;
-* 'unique_packages_sisyphus': all packages that are in sisyphus but not in p10;
-* 'packages': all packages with more version-release in sisyphus than in p10.
+When the utility is launched, the module receives package lists from Basealt's public API [https://rdb.altlinux.org/api/](https://rdb.altlinux.org/api/) using /export/branch_binary_packages/{branch} method. Next, it compares these lists for each supported architecture and outputs the information to the terminal in JSON format:
+* 'unique_packages_first_lib': all packages that are in first_lib but not in second_lib;
+* 'unique_packages_second_lib': all packages that are in second_lib but not in first_lib;
+* 'packages': all packages with more version-release in second_lib than in first_lib.
 
 
 ### Author Artem Kulikov
@@ -22,11 +22,7 @@ Clone repo:
 ```
 git clone git@github.com:berg96/rdb_altlinux_testtask_bazalt.git
 ```
-Run setup:
+Run with required arguments (branch1, branch2, arch):
 ```
-python setup.py install
-```
-Use 'compare_packages' for run
-```
-compare_packages
+python main.py {branch1} {branch2} {arch}
 ```
