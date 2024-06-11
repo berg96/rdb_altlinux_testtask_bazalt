@@ -32,14 +32,14 @@ def compare_packages(session, arch):
         package_first_lib = common_packages_first_lib[0]
         common_packages_first_lib = common_packages_first_lib[1:]
         if rpm.labelCompare(package_second_lib.version, package_first_lib.version) > 0:
-            packages.append({k: v for k, v in package_second_lib.__dict__.items() if k != '_sa_instance_state'})
+            packages.append(package_second_lib.to_dict())
     return (
         [
-            {k: v for k, v in pack.__dict__.items() if k != '_sa_instance_state'}
+            pack.to_dict()
             for pack in session.query(FirstLib).filter(FirstLib.name.in_(unique_packages_first_lib)).all()
         ],
         [
-            {k: v for k, v in pack.__dict__.items() if k != '_sa_instance_state'}
+            pack.to_dict()
             for pack in session.query(SecondLib).filter(SecondLib.name.in_(unique_packages_second_lib)).all()
         ],
         packages

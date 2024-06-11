@@ -26,6 +26,18 @@ class Package:
     def __repr__(self):
         return f'{self.__class__.__name__} {self.name} {self.version} {self.arch}'
 
+    def to_dict(self):
+        return dict(
+            name=self.name,
+            epoch=self.epoch,
+            version=self.version,
+            release=self.release,
+            arch=self.arch,
+            disttag=self.disttag,
+            buildtime=self.buildtime,
+            source=self.source
+        )
+
     class Meta:
         abstract = True
 
